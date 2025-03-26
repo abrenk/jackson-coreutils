@@ -21,13 +21,18 @@ package com.github.fge.jackson;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.BigIntegerNode;
+import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.LongNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.ShortNode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -58,6 +63,19 @@ public final class JsonNumEqualsTest
             for (final JsonNode node: element.get("equivalences"))
                 list.add(new Object[]{reference, node});
         }
+
+        list.add(new Object[]{new ShortNode((short) 1), new IntNode(1)});
+        list.add(new Object[]{new ShortNode((short) 1), new LongNode(1)});
+        list.add(new Object[]{new ShortNode((short) 1), new BigIntegerNode(BigInteger.ONE)});
+        list.add(new Object[]{new IntNode(1), new ShortNode((short) 1)});
+        list.add(new Object[]{new IntNode(1), new LongNode(1)});
+        list.add(new Object[]{new IntNode(1), new BigIntegerNode(BigInteger.ONE)});
+        list.add(new Object[]{new LongNode(1), new ShortNode((short) 1)});
+        list.add(new Object[]{new LongNode(1), new IntNode(1)});
+        list.add(new Object[]{new LongNode(1), new BigIntegerNode(BigInteger.ONE)});
+        list.add(new Object[]{new BigIntegerNode(BigInteger.ONE), new ShortNode((short) 1)});
+        list.add(new Object[]{new BigIntegerNode(BigInteger.ONE), new IntNode(1)});
+        list.add(new Object[]{new BigIntegerNode(BigInteger.ONE), new LongNode(1)});
 
         return list.iterator();
     }

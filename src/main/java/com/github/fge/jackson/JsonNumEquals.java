@@ -167,10 +167,12 @@ public final class JsonNumEquals
     private static boolean numEquals(final JsonNode a, final JsonNode b)
     {
         /*
-         * If both numbers are integers, delegate to JsonNode.
+         * If both numbers are integers, compare integer values
          */
         if (a.isIntegralNumber() && b.isIntegralNumber())
-            return a.equals(b);
+            return (a.canConvertToLong() && b.canConvertToLong())
+                    ? a.longValue() == b.longValue()
+                    : a.bigIntegerValue().equals(b.bigIntegerValue());
 
         /*
          * Otherwise, compare decimal values.
